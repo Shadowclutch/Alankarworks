@@ -1,7 +1,12 @@
 import { PrismaClient } from "@/generated/prisma/client"
 import { PrismaNeonHttp } from "@prisma/adapter-neon"
 
-const connectionString = process.env.DATABASE_URL || ""
+const connectionString =
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL_NON_POOLING ||
+  process.env.DATABASE_URL_UNPOOLED ||
+  process.env.POSTGRES_URL ||
+  ""
 
 const adapter = new PrismaNeonHttp(connectionString, {})
 
