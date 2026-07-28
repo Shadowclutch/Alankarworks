@@ -226,13 +226,13 @@ async function main() {
     const exists = await prisma.product.findUnique({ where: { slug: product.slug } })
     if (!exists) {
       const { images, variants, ...productData } = product
-      await prisma.product.create({
-        data: {
-          ...productData,
-          images: { create: images },
-          variants: { create: variants },
-        },
-      })
+      const created = await prisma.product.create({ data: productData })
+      for (const img of images) {
+        await prisma.productImage.create({ data: { ...img, productId: created.id } })
+      }
+      for (const v of variants) {
+        await prisma.productVariant.create({ data: { ...v, productId: created.id } })
+      }
       console.log(`Product "${product.name}" created`)
     }
   }
