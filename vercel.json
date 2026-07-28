@@ -1,0 +1,10 @@
+{
+  "buildCommand": "next build --webpack",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 512
+    }
+  }
+}
