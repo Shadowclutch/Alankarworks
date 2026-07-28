@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 import { ProductCard } from "@/components/ui/ProductCard"
+import { NewsletterForm } from "@/components/NewsletterForm"
 
 const placeholderProducts = [
   { id: "1", name: "Premium Cotton T-Shirt", slug: "premium-cotton-tshirt", basePrice: 1299, salePrice: 999, images: [{ url: "https://picsum.photos/seed/shirt1/300/400" }], category: { name: "Men" } },
@@ -116,22 +117,7 @@ export default function HomePage() {
                 Subscribe to our newsletter and get exclusive deals, new arrivals,
                 and style tips straight to your inbox.
               </p>
-              <form
-                className="mt-6 flex flex-col gap-3 sm:flex-row"
-                onSubmit={(e) => e.preventDefault()}
-              >
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="h-12 flex-1 rounded-lg px-4 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
-                />
-                <Button
-                  type="submit"
-                  className="h-12 bg-white text-primary hover:bg-gray-100 hover:text-primary-dark px-6 font-semibold"
-                >
-                  Subscribe
-                </Button>
-              </form>
+              <NewsletterForm />
             </div>
           </div>
         </div>
