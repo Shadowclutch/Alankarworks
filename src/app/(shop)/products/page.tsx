@@ -30,17 +30,26 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   ])) as any[]
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex flex-col gap-8 lg:flex-row">
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mb-10">
+        <span className="text-xs font-semibold uppercase tracking-[0.3em] text-gold">Collection</span>
+        <h1 className="mt-2 font-serif text-3xl font-bold text-charcoal sm:text-4xl">
+          {category
+            ? categories.find((c: any) => c.slug === category)?.name ?? "Products"
+            : "All Products"}
+        </h1>
+      </div>
+
+      <div className="flex flex-col gap-10 lg:flex-row">
         <aside className="w-full shrink-0 lg:w-56">
-          <h2 className="text-lg font-semibold text-gray-900">Categories</h2>
+          <h2 className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/50">Categories</h2>
           <nav className="mt-4 space-y-1">
             <Link
               href="/products"
-              className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              className={`block border-l-2 px-4 py-2 text-sm transition-colors ${
                 !category
-                  ? "bg-primary/10 text-primary"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "border-primary font-medium text-primary"
+                  : "border-transparent text-charcoal/60 hover:border-charcoal/20 hover:text-charcoal"
               }`}
             >
               All Products
@@ -49,10 +58,10 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               <Link
                 key={cat.id}
                 href={`/products?category=${cat.slug}`}
-                className={`block rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                className={`block border-l-2 px-4 py-2 text-sm transition-colors ${
                   category === cat.slug
-                    ? "bg-primary/10 text-primary"
-                    : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    ? "border-primary font-medium text-primary"
+                    : "border-transparent text-charcoal/60 hover:border-charcoal/20 hover:text-charcoal"
                 }`}
               >
                 {cat.name}
@@ -62,26 +71,20 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         </aside>
 
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900">
-            {category
-              ? categories.find((c: any) => c.slug === category)?.name ?? "Products"
-              : "All Products"}
-          </h1>
-
           {products.length === 0 ? (
             <div className="mt-12 text-center">
-              <p className="text-gray-500">No products found.</p>
+              <p className="text-charcoal/50">No products found.</p>
               {category && (
                 <Link
                   href="/products"
-                  className="mt-2 inline-block text-sm font-medium text-primary hover:underline"
+                  className="mt-3 inline-block text-xs font-semibold uppercase tracking-[0.15em] text-primary underline underline-offset-4"
                 >
                   View all products
                 </Link>
               )}
             </div>
           ) : (
-            <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {products.map((product: any) => (
                 <ProductCard key={product.id} product={product} />
               ))}

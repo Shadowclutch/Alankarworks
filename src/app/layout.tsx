@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Playfair_Display } from "next/font/google"
 import "./globals.css"
 import { Header } from "@/components/Header"
 import { Footer } from "@/components/Footer"
@@ -14,8 +14,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 })
 
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+})
+
 export const metadata: Metadata = {
-  title: "AlankarWorks - Premium Clothing Store",
+  title: "AlankarWorks — Premium Clothing Store",
   description:
     "Discover the latest fashion trends at AlankarWorks. Shop premium clothing for Men, Women, and Kids.",
 }
@@ -28,9 +33,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-cream text-charcoal antialiased">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

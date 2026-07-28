@@ -53,71 +53,56 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-[60vh] items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-8 rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900">Create Account</h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Join AlankarWorks today
-          </p>
+    <div className="flex min-h-[70vh] items-center justify-center px-4 py-16">
+      <div className="w-full max-w-sm">
+        <div className="mb-10 text-center">
+          <Link href="/" className="font-serif text-2xl font-bold tracking-wide text-primary">
+            AlankarWorks
+          </Link>
+          <h1 className="mt-6 text-2xl font-bold text-charcoal">Create Account</h1>
+          <p className="mt-1 text-sm text-charcoal/50">Join us today</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <div className="rounded-lg bg-red-50 p-3 text-sm text-red-600">
+            <div className="border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
               {error}
             </div>
           )}
 
-          <Input
-            label="Full Name"
-            name="name"
-            placeholder="Enter your name"
-            required
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Full Name</label>
+            <input name="name" required placeholder="Enter your name" className="w-full border border-charcoal/20 bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/30 focus:border-primary" />
+          </div>
 
-          <Input
-            label="Email"
-            name="email"
-            type="email"
-            placeholder="Enter your email"
-            required
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Email</label>
+            <input name="email" type="email" required placeholder="Enter your email" className="w-full border border-charcoal/20 bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/30 focus:border-primary" />
+          </div>
 
-          <Input
-            label="Phone"
-            name="phone"
-            type="tel"
-            placeholder="Enter your phone number"
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Phone</label>
+            <input name="phone" type="tel" placeholder="Enter your phone number" className="w-full border border-charcoal/20 bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/30 focus:border-primary" />
+          </div>
 
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            placeholder="Create a password"
-            required
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Password</label>
+            <input name="password" type="password" required placeholder="Create a password (min 6 chars)" className="w-full border border-charcoal/20 bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/30 focus:border-primary" />
+          </div>
 
-          <Input
-            label="Confirm Password"
-            name="confirmPassword"
-            type="password"
-            placeholder="Confirm your password"
-            required
-          />
+          <div>
+            <label className="mb-1.5 block text-xs font-semibold uppercase tracking-[0.1em] text-charcoal/60">Confirm Password</label>
+            <input name="confirmPassword" type="password" required placeholder="Confirm your password" className="w-full border border-charcoal/20 bg-cream px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/30 focus:border-primary" />
+          </div>
 
           <Button type="submit" className="w-full" loading={loading}>
             Create Account
           </Button>
         </form>
 
-        <p className="text-center text-sm text-gray-600">
+        <p className="mt-8 text-center text-sm text-charcoal/50">
           Already have an account?{" "}
-          <Link
-            href="/login"
-            className="font-medium text-primary hover:text-primary-dark"
-          >
+          <Link href="/login" className="font-medium text-primary underline underline-offset-4 hover:text-primary-dark">
             Sign in
           </Link>
         </p>

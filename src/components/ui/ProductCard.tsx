@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import { formatPrice } from "@/lib/utils"
-import { Button } from "@/components/ui/Button"
 
 interface ProductImage {
   url: string
@@ -34,30 +33,31 @@ export function ProductCard({ product }: ProductCardProps) {
     product.images?.[0]?.alt ?? product.name
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+    <div className="group relative flex flex-col overflow-hidden rounded-sm bg-white transition-all duration-500 hover:shadow-xl">
       <Link href={`/products/${product.slug}`} className="relative overflow-hidden">
-        <div className="aspect-[3/4] bg-gray-100">
+        <div className="aspect-[3/4] bg-warm-gray">
           <img
             src={imageUrl}
             alt={imageAlt}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="h-full w-full object-cover transition-all duration-700 group-hover:scale-110"
           />
+          <div className="absolute inset-0 bg-black/0 transition-colors duration-500 group-hover:bg-black/10" />
         </div>
-        {product.category && (
-          <span className="absolute left-3 top-3 rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-medium text-gray-700 shadow-sm backdrop-blur-sm">
-            {product.category.name}
-          </span>
-        )}
         {product.salePrice && (
-          <span className="absolute right-3 top-3 rounded-full bg-primary px-2.5 py-0.5 text-xs font-semibold text-white shadow-sm">
+          <span className="absolute left-3 top-3 bg-primary px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-cream">
             Sale
           </span>
         )}
       </Link>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
+      <div className="flex flex-1 flex-col gap-1.5 p-5">
+        {product.category && (
+          <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gold">
+            {product.category.name}
+          </span>
+        )}
         <Link href={`/products/${product.slug}`}>
-          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-primary transition-colors">
+          <h3 className="text-sm font-medium text-charcoal transition-colors hover:text-primary">
             {product.name}
           </h3>
         </Link>
@@ -65,32 +65,23 @@ export function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-center gap-2">
           {product.salePrice ? (
             <>
-              <span className="text-lg font-bold text-primary">
+              <span className="text-base font-semibold text-primary">
                 {formatPrice(product.salePrice)}
               </span>
-              <span className="text-sm text-gray-400 line-through">
+              <span className="text-xs text-stone-400 line-through">
                 {formatPrice(product.basePrice)}
               </span>
             </>
           ) : (
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-base font-semibold text-charcoal">
               {formatPrice(product.basePrice)}
             </span>
           )}
         </div>
 
-        <div className="mt-auto pt-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            onClick={() => {
-              console.log("Add to cart", product.id)
-            }}
-          >
-            Add to Cart
-          </Button>
-        </div>
+        <button className="mt-2 w-full border border-charcoal/20 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-charcoal transition-all hover:border-primary hover:bg-primary hover:text-cream">
+          Add to Cart
+        </button>
       </div>
     </div>
   )

@@ -47,18 +47,26 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const thumbnailImages = product.images.slice(0, 5)
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <nav className="mb-8 text-sm text-gray-500">
-        <Link href="/products" className="hover:text-primary transition-colors">
-          Products
-        </Link>
+    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <nav className="mb-10 text-xs text-charcoal/50">
+        <Link href="/" className="transition-colors hover:text-primary">Home</Link>
         <span className="mx-2">/</span>
-        <span className="text-gray-900">{product.name}</span>
+        <Link href="/products" className="transition-colors hover:text-primary">Products</Link>
+        <span className="mx-2">/</span>
+        {product.category && (
+          <>
+            <Link href={`/products?category=${product.category.slug}`} className="transition-colors hover:text-primary">
+              {product.category.name}
+            </Link>
+            <span className="mx-2">/</span>
+          </>
+        )}
+        <span className="text-charcoal">{product.name}</span>
       </nav>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      <div className="grid gap-10 lg:grid-cols-2">
         <div className="flex flex-col gap-4">
-          <div className="aspect-[3/4] overflow-hidden rounded-xl bg-gray-100">
+          <div className="aspect-[3/4] overflow-hidden bg-warm-gray">
             <img
               src={mainImage}
               alt={product.images[0]?.alt ?? product.name}
@@ -66,11 +74,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
             />
           </div>
           {thumbnailImages.length > 1 && (
-            <div className="flex gap-3 overflow-x-auto">
+            <div className="scrollbar-hide flex gap-3 overflow-x-auto">
               {thumbnailImages.map((img: any) => (
                 <button
                   key={img.id}
-                  className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-100"
+                  className="h-20 w-20 shrink-0 overflow-hidden border border-charcoal/10 bg-warm-gray transition-colors hover:border-primary"
                 >
                   <img
                     src={img.url}
@@ -86,11 +94,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <div className="flex flex-col gap-6">
           <div>
             {product.category && (
-              <span className="text-sm font-medium text-primary">
+              <span className="text-xs font-semibold uppercase tracking-[0.15em] text-gold">
                 {product.category.name}
               </span>
             )}
-            <h1 className="mt-1 text-2xl font-bold text-gray-900 lg:text-3xl">
+            <h1 className="mt-2 font-serif text-3xl font-bold text-charcoal lg:text-4xl">
               {product.name}
             </h1>
           </div>
@@ -101,18 +109,20 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <span className="text-3xl font-bold text-primary">
                   {formatPrice(product.salePrice)}
                 </span>
-                <span className="text-xl text-gray-400 line-through">
+                <span className="text-lg text-stone-400 line-through">
                   {formatPrice(product.basePrice)}
                 </span>
               </>
             ) : (
-              <span className="text-3xl font-bold text-gray-900">
+              <span className="text-3xl font-bold text-charcoal">
                 {formatPrice(product.basePrice)}
               </span>
             )}
           </div>
 
-          <p className="text-gray-600 leading-relaxed">{product.description}</p>
+          <div className="border-t border-gold-light/30 pt-6">
+            <p className="leading-relaxed text-charcoal/60">{product.description}</p>
+          </div>
 
           <AddToCartButton
             productId={product.id}
@@ -123,16 +133,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
           />
 
           {product.variants.length > 0 && (
-            <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
-              <h3 className="text-sm font-medium text-gray-900">Stock Information</h3>
-              <div className="mt-2 space-y-1">
+            <div className="border border-gold-light/40 bg-warm-gray p-5">
+              <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/70">Stock Information</h3>
+              <div className="mt-3 space-y-1.5">
                 {product.variants.map((v: any) => (
-                  <div key={v.id} className="flex items-center justify-between text-sm text-gray-600">
+                  <div key={v.id} className="flex items-center justify-between text-sm text-charcoal/60">
                     <span>
                       {v.size}
                       {v.color && ` / ${v.color}`}
                     </span>
-                    <span className={v.stock > 0 ? "text-green-600" : "text-red-500"}>
+                    <span className={v.stock > 0 ? "text-green-700" : "text-red-600"}>
                       {v.stock > 0 ? `${v.stock} in stock` : "Out of stock"}
                     </span>
                   </div>
@@ -142,15 +152,15 @@ export default async function ProductPage({ params }: ProductPageProps) {
           )}
 
           {product.reviews.length > 0 && (
-            <div className="border-t border-gray-200 pt-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-gray-900">
+            <div className="border-t border-gold-light/30 pt-8">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="font-serif text-xl font-bold text-charcoal">
                   Reviews ({product.reviews.length})
                 </h2>
                 {session?.user?.id && (
                   <Link
                     href={`/products/${slug}/review`}
-                    className="text-sm font-medium text-primary hover:underline"
+                    className="text-xs font-semibold uppercase tracking-[0.15em] text-primary underline underline-offset-4"
                   >
                     Write a Review
                   </Link>
@@ -158,14 +168,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
               <div className="space-y-4">
                 {product.reviews.map((review: any) => (
-                  <div key={review.id} className="rounded-lg border border-gray-100 bg-white p-4">
-                    <div className="flex items-center gap-2 mb-1">
+                  <div key={review.id} className="border border-gold-light/30 bg-cream p-5">
+                    <div className="flex items-center gap-2 mb-2">
                       <div className="flex">
                         {Array.from({ length: 5 }, (_, i) => (
                           <svg
                             key={i}
-                            className={`h-4 w-4 ${
-                              i < review.rating ? "text-yellow-400" : "text-gray-200"
+                            className={`h-3.5 w-3.5 ${
+                              i < review.rating ? "text-gold" : "text-stone-200"
                             }`}
                             fill="currentColor"
                             viewBox="0 0 20 20"
@@ -174,12 +184,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
                           </svg>
                         ))}
                       </div>
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-charcoal">
                         {review.user.name ?? "Anonymous"}
                       </span>
                     </div>
                     {review.comment && (
-                      <p className="text-sm text-gray-600">{review.comment}</p>
+                      <p className="text-sm text-charcoal/60">{review.comment}</p>
                     )}
                   </div>
                 ))}

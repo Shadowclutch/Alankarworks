@@ -106,39 +106,45 @@ export default function CartPage() {
 
   if (loading) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent mx-auto" />
+      <div className="mx-auto max-w-4xl px-4 py-24 text-center">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     )
   }
 
   if (!cart || cart.items.length === 0) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-16 text-center">
-        <div className="mb-4 text-6xl">🛒</div>
-        <h1 className="text-2xl font-bold text-gray-900">Your cart is empty</h1>
-        <p className="mt-2 text-gray-500">
+      <div className="mx-auto max-w-4xl px-4 py-24 text-center">
+        <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-warm-gray">
+          <svg className="h-7 w-7 text-charcoal/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+        </div>
+        <h1 className="font-serif text-2xl font-bold text-charcoal">Your cart is empty</h1>
+        <p className="mt-2 text-sm text-charcoal/50">
           Looks like you haven&apos;t added anything yet.
         </p>
         <Link href="/products">
-          <Button className="mt-6">Start Shopping</Button>
+          <button className="mt-8 border border-primary px-8 py-3 text-xs font-semibold uppercase tracking-[0.15em] text-primary transition-all hover:bg-primary hover:text-cream">
+            Start Shopping
+          </button>
         </Link>
       </div>
     )
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-      <h1 className="text-2xl font-bold text-gray-900">Shopping Cart</h1>
+    <div className="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
+      <h1 className="font-serif text-3xl font-bold text-charcoal">Shopping Cart</h1>
 
-      <div className="mt-8 divide-y divide-gray-200">
+      <div className="mt-10 divide-y divide-gold-light/30">
         {cart.items.map((item) => {
           const price = getItemPrice(item)
           const imageUrl = item.product.images[0]?.url ?? "/api/placeholder/80/100"
 
           return (
-            <div key={item.id} className="flex gap-4 py-6">
-              <div className="h-24 w-20 shrink-0 overflow-hidden rounded-lg bg-gray-100">
+            <div key={item.id} className="flex gap-5 py-6">
+              <div className="h-28 w-24 shrink-0 overflow-hidden bg-warm-gray">
                 <img
                   src={imageUrl}
                   alt={item.product.name}
@@ -150,17 +156,17 @@ export default function CartPage() {
                 <div>
                   <Link
                     href={`/products/${item.product.slug}`}
-                    className="text-sm font-medium text-gray-900 hover:text-primary"
+                    className="text-sm font-medium text-charcoal transition-colors hover:text-primary"
                   >
                     {item.product.name}
                   </Link>
                   {item.variant && (
-                    <p className="mt-0.5 text-xs text-gray-500">
+                    <p className="mt-0.5 text-xs text-charcoal/50">
                       {item.variant.size}
                       {item.variant.color && ` / ${item.variant.color}`}
                     </p>
                   )}
-                  <p className="mt-1 text-sm font-medium text-gray-900">
+                  <p className="mt-1 text-sm font-medium text-charcoal">
                     {formatPrice(price)}
                   </p>
                 </div>
@@ -169,28 +175,32 @@ export default function CartPage() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="flex h-7 w-7 items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm"
+                      className="flex h-8 w-8 items-center justify-center border border-charcoal/20 text-charcoal/60 transition-colors hover:border-primary hover:text-primary"
                     >
-                      -
+                      <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+                      </svg>
                     </button>
-                    <span className="w-6 text-center text-sm font-medium text-gray-900">
+                    <span className="w-8 text-center text-sm font-medium text-charcoal">
                       {item.quantity}
                     </span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="flex h-7 w-7 items-center justify-center rounded border border-gray-300 text-gray-600 hover:bg-gray-50 text-sm"
+                      className="flex h-8 w-8 items-center justify-center border border-charcoal/20 text-charcoal/60 transition-colors hover:border-primary hover:text-primary"
                     >
-                      +
+                      <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
                     </button>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-semibold text-gray-900">
+                  <div className="flex items-center gap-5">
+                    <span className="text-sm font-semibold text-charcoal">
                       {formatPrice(price * item.quantity)}
                     </span>
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-sm text-red-500 hover:text-red-700"
+                      className="text-xs text-stone-400 underline underline-offset-2 transition-colors hover:text-red-600"
                     >
                       Remove
                     </button>
@@ -202,42 +212,41 @@ export default function CartPage() {
         })}
       </div>
 
-      <div className="mt-8 rounded-lg border border-gray-200 bg-gray-50 p-6">
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm text-gray-600">
+      <div className="mt-10 ml-auto w-full max-w-sm border border-gold-light/40 bg-warm-gray p-6">
+        <div className="space-y-3">
+          <div className="flex justify-between text-sm text-charcoal/60">
             <span>Subtotal</span>
             <span>{formatPrice(subtotal)}</span>
           </div>
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-charcoal/60">
             <span>Delivery</span>
             <span>
               {deliveryCharge === 0 ? (
-                <span className="text-green-600">Free</span>
+                <span className="font-medium text-green-700">Free</span>
               ) : (
                 formatPrice(deliveryCharge)
               )}
             </span>
           </div>
           {subtotal < 999 && subtotal > 0 && (
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-charcoal/40">
               Add {formatPrice(999 - subtotal)} more for free delivery
             </p>
           )}
-          <div className="border-t border-gray-200 pt-2">
-            <div className="flex justify-between text-base font-semibold text-gray-900">
+          <div className="border-t border-gold-light/40 pt-3">
+            <div className="flex justify-between text-base font-semibold text-charcoal">
               <span>Total</span>
               <span>{formatPrice(total)}</span>
             </div>
           </div>
         </div>
 
-        <Button
-          size="lg"
-          className="mt-4 w-full"
+        <button
           onClick={() => router.push("/checkout")}
+          className="mt-5 w-full bg-primary py-3 text-xs font-semibold uppercase tracking-[0.15em] text-cream transition-all hover:bg-primary-dark"
         >
           Proceed to Checkout
-        </Button>
+        </button>
       </div>
     </div>
   )

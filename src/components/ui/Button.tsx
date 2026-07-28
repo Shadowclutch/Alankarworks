@@ -5,21 +5,21 @@ import { cn } from "@/lib/utils"
 
 const variants = {
   primary:
-    "bg-primary text-white hover:bg-primary-dark focus:ring-primary/50",
+    "bg-primary text-cream hover:bg-primary-dark focus:ring-primary/50",
   secondary:
-    "bg-gray-800 text-white hover:bg-gray-700 focus:ring-gray-500/50",
+    "bg-charcoal text-cream hover:bg-charcoal/80 focus:ring-charcoal/50",
   outline:
-    "border-2 border-primary text-primary hover:bg-primary hover:text-white focus:ring-primary/50",
+    "border border-primary text-primary hover:bg-primary hover:text-cream focus:ring-primary/50",
   ghost:
-    "text-gray-700 hover:bg-gray-100 focus:ring-gray-500/50",
+    "text-charcoal/70 hover:bg-warm-gray focus:ring-charcoal/50",
   danger:
-    "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500/50",
+    "bg-red-700 text-white hover:bg-red-800 focus:ring-red-500/50",
 }
 
 const sizes = {
-  sm: "h-8 px-3 text-sm",
-  md: "h-10 px-5 text-sm",
-  lg: "h-12 px-7 text-base",
+  sm: "h-9 px-4 text-xs uppercase tracking-wider",
+  md: "h-11 px-6 text-sm uppercase tracking-wider",
+  lg: "h-13 px-8 text-sm uppercase tracking-wider",
 }
 
 type ButtonVariant = keyof typeof variants
