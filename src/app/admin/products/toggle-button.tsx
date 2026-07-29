@@ -21,10 +21,13 @@ export function ToggleProductButton({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ isActive: !isActive }),
       })
-      if (!res.ok) throw new Error("Failed to toggle")
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error((err as any).error ?? "Failed to toggle")
+      }
       router.refresh()
-    } catch {
-      alert("Failed to toggle product status")
+    } catch (e) {
+      alert(e instanceof Error ? e.message : "Failed to toggle product status")
     } finally {
       setLoading(false)
     }
