@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { formatPrice } from "@/lib/utils"
+import { WishlistButton } from "@/components/WishlistButton"
 
 interface ProductImage {
   url: string
@@ -79,9 +80,12 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        <button className="mt-2 w-full border border-charcoal/20 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-charcoal transition-all hover:border-primary hover:bg-primary hover:text-cream">
-          Add to Cart
-        </button>
+        <div className="mt-2 flex items-center gap-2">
+          <button className="flex-1 border border-charcoal/20 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-charcoal transition-all hover:border-primary hover:bg-primary hover:text-cream">
+            Add to Cart
+          </button>
+          <WishlistButton productId={product.id} />
+        </div>
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { HeaderClient } from "./HeaderClient"
+import { SearchBar } from "./SearchBar"
 
 export async function Header() {
   const session = await auth()
@@ -26,6 +27,10 @@ export async function Header() {
               Kids
             </Link>
           </nav>
+
+          <div className="hidden md:block">
+            <SearchBar />
+          </div>
 
           <div className="flex items-center gap-5">
             <Link

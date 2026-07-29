@@ -32,14 +32,30 @@ interface Cart {
   items: CartItem[]
 }
 
+interface CouponOffer {
+  code: string
+  discount: number
+  isPercent: boolean
+  minOrder: number
+}
+
 export default function CartPage() {
   const router = useRouter()
   const [cart, setCart] = useState<Cart | null>(null)
   const [loading, setLoading] = useState(true)
+  const [coupons, setCoupons] = useState<CouponOffer[]>([])
+  const [couponInput, setCouponInput] = useState("")
 
   useEffect(() => {
-    fetchCart()
+    Promise.all([fetchCart(), fetchCoupons()])
   }, [])
+
+  async function fetchCoupons() {
+    try {
+      const res = await fetch("/api/coupons/active")
+      if (res.ok) setCoupons(await res.json())
+    } catch {}
+  }
 
   async function fetchCart() {
     try {
@@ -210,6 +226,38 @@ export default function CartPage() {
             </div>
           )
         })}
+      </div>
+
+      {coupons.length > 0 && (
+        <div className="mt-10">
+          <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-charcoal/60">Available Offers</h3>
+          <div className="mt-3 flex gap-3 overflow-x-auto scrollbar-hide">
+            {coupons.map((c) => (
+              <button
+                key={c.code}
+                onClick={() => setCouponInput(c.code)}
+                className="shrink-0 rounded-sm border-2 border-dashed border-gold-light/60 bg-cream p-4 text-left transition-colors hover:border-gold"
+              >
+                <span className="inline-block border border-primary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-primary">{c.code}</span>
+                <p className="mt-2 text-sm font-semibold text-charcoal">{c.isPercent ? `${c.discount}% OFF` : `${formatPrice(c.discount)} OFF`}</p>
+                <p className="mt-0.5 text-[10px] text-charcoal/50">Min. order {formatPrice(c.minOrder)}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="mt-6 flex items-center gap-3">
+        <input
+          type="text"
+          value={couponInput}
+          onChange={(e) => setCouponInput(e.target.value)}
+          placeholder="Enter coupon code"
+          className="flex-1 border border-charcoal/20 bg-cream px-4 py-2.5 text-sm text-charcoal outline-none placeholder:text-charcoal/30 focus:border-primary"
+        />
+        <button className="border border-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.15em] text-primary transition-all hover:bg-primary hover:text-cream">
+          Apply
+        </button>
       </div>
 
       <div className="mt-10 ml-auto w-full max-w-sm border border-gold-light/40 bg-warm-gray p-6">
