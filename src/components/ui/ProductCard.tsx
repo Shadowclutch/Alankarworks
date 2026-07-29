@@ -1,6 +1,8 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { formatPrice } from "@/lib/utils"
 import { WishlistButton } from "@/components/WishlistButton"
 
@@ -28,6 +30,8 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
+  const router = useRouter()
+  const [adding, setAdding] = useState(false)
   const imageUrl =
     product.images?.[0]?.url ?? "/api/placeholder/300/400"
   const imageAlt =
@@ -81,8 +85,24 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
 
         <div className="mt-2 flex items-center gap-2">
-          <button className="flex-1 border border-charcoal/20 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-charcoal transition-all hover:border-primary hover:bg-primary hover:text-cream">
-            Add to Cart
+          <button
+            onClick={async () => {
+              if (adding) return
+              setAdding(true)
+              try {
+                const res = await fetch("/api/cart", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ productId: product.id, quantity: 1 }),
+                })
+                if (res.status === 401) { router.push("/login"); return }
+              } catch { /* ignore */ }
+              setAdding(false)
+            }}
+            disabled={adding}
+            className="flex-1 border border-charcoal/20 py-2.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-charcoal transition-all hover:border-primary hover:bg-primary hover:text-cream disabled:opacity-50"
+          >
+            {adding ? "Adding..." : "Add to Cart"}
           </button>
           <WishlistButton productId={product.id} />
         </div>

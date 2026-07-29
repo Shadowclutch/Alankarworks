@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 interface WishlistItem {
   id: string
@@ -12,6 +13,7 @@ interface WishlistButtonProps {
 }
 
 export function WishlistButton({ productId }: WishlistButtonProps) {
+  const router = useRouter()
   const [isInWishlist, setIsInWishlist] = useState(false)
   const [loading, setLoading] = useState(true)
   const [toggling, setToggling] = useState(false)
@@ -20,6 +22,7 @@ export function WishlistButton({ productId }: WishlistButtonProps) {
     async function checkWishlist() {
       try {
         const res = await fetch("/api/wishlist")
+        if (res.status === 401) { router.push("/login"); return }
         if (res.ok) {
           const data: WishlistItem[] = await res.json()
           setIsInWishlist(data.some((item) => item.productId === productId))
@@ -31,7 +34,7 @@ export function WishlistButton({ productId }: WishlistButtonProps) {
       }
     }
     checkWishlist()
-  }, [productId])
+  }, [productId, router])
 
   async function toggle() {
     if (toggling) return
@@ -42,6 +45,7 @@ export function WishlistButton({ productId }: WishlistButtonProps) {
         const res = await fetch(`/api/wishlist?productId=${productId}`, {
           method: "DELETE",
         })
+        if (res.status === 401) { router.push("/login"); return }
         if (res.ok) setIsInWishlist(false)
       } else {
         const res = await fetch("/api/wishlist", {
@@ -49,6 +53,7 @@ export function WishlistButton({ productId }: WishlistButtonProps) {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ productId }),
         })
+        if (res.status === 401) { router.push("/login"); return }
         if (res.ok) setIsInWishlist(true)
       }
     } catch {

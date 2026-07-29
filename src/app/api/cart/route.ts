@@ -89,15 +89,19 @@ export async function POST(request: Request) {
       })
     }
 
-    const existingItem = await prisma.cartItem.findUnique({
-      where: {
-        cartId_productId_variantId: {
-          cartId: cart.id,
-          productId,
-          variantId: variantId ?? "",
-        },
-      },
-    })
+    const existingItem = variantId
+      ? await prisma.cartItem.findUnique({
+          where: {
+            cartId_productId_variantId: {
+              cartId: cart.id,
+              productId,
+              variantId,
+            },
+          },
+        })
+      : await prisma.cartItem.findFirst({
+          where: { cartId: cart.id, productId, variantId: null },
+        })
 
     if (existingItem) {
       await prisma.cartItem.update({
