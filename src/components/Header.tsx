@@ -2,6 +2,7 @@ import Link from "next/link"
 import { auth } from "@/lib/auth"
 import { HeaderClient } from "./HeaderClient"
 import { SearchBar } from "./SearchBar"
+import { UserMenu } from "./UserMenu"
 
 export async function Header() {
   const session = await auth()
@@ -51,7 +52,11 @@ export async function Header() {
             </Link>
 
             {session?.user ? (
-              <span className="hidden text-xs font-medium text-charcoal/60 md:block">{session.user.name ?? session.user.email}</span>
+              <UserMenu
+                name={session.user.name ?? ""}
+                email={session.user.email ?? ""}
+                role={session.user.role as string}
+              />
             ) : (
               <Link
                 href="/login"
